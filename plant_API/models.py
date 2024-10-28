@@ -7,4 +7,3 @@ class Plant(models.Model):
     species = models.CharField(max_length=255)
     watering_frequency_days = models.PositiveSmallIntegerField()
     last_watered_date = models.DateField()
-    owner = models.ForeignKey(get_user_model(), related_name="plants", on_delete=models.CASCADE)
