@@ -7,3 +7,6 @@ class Plant(models.Model):
     species = models.CharField(max_length=255)
     watering_frequency_days = models.PositiveSmallIntegerField()
     last_watered_date = models.DateField()
+
+    def __str__(self):
+        return self.name
