@@ -1,5 +1,8 @@
+from datetime import datetime
+
 from django.shortcuts import get_object_or_404
 from rest_framework.viewsets import ModelViewSet
+from rest_framework.decorators import action
 from rest_framework.response import Response
 from rest_framework import status
 
@@ -34,4 +37,18 @@ class PlantAPIView(ModelViewSet):
             serializer.save()
             return Response(status=status.HTTP_200_OK)
         return Response(status=status.HTTP_400_BAD_REQUEST)
+
+    @action(detail=True, methods=['PATCH'])
+    def watering_plant(self, request, pk=None, *args, **kwargs):
+        plant = get_object_or_404(self.queryset, pk=pk)
+        if plant.is_need_be_watered:
+            plant.last_watered_date = datetime.now().date()
+            return Response(
+                f'Plant has been watered Successfully. Next watering date: {plant.next_watering_date}',
+                status=status.HTTP_200_OK
+            )
+        return Response(
+            f'You trying to water plant to early. Next watering date: {plant.next_watering_date}',
+            status=status.HTTP_400_BAD_REQUEST
+        )
 
