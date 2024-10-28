@@ -25,7 +25,7 @@ class PlantAPIView(ModelViewSet):
 
     def partial_update(self, request, pk=None, *args, **kwargs):
         plant = get_object_or_404(self.queryset, pk=pk)
-        serializer = self.get_serializer(plant, partial=True)
+        serializer = self.get_serializer(plant, data=request.data, partial=True)
         if serializer.is_valid():
             serializer.save()
             return Response(status=status.HTTP_200_OK)
